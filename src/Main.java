@@ -53,8 +53,8 @@ public class Main {
       result.put(name, result.get(name) + voices); // увеличиваем счётчик на значение голосов
     }
 
-    for (Map.Entry<String, Integer> entry : result.entrySet()) {
-      System.out.println(entry.getKey() + " " + entry.getValue());
+    for (String name : result.keySet()) {
+      System.out.println(name + " " + result.get(name));
     }
   }
 }
