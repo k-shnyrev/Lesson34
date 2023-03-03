@@ -38,15 +38,10 @@ public class Main {
   // Obama 17
   public static void main(String[] args) throws IOException {
     File inputFile = new File("res/in.txt");
-
     Map<String, Integer> result = calculateResult(inputFile);
 
     File outputFile = new File("res/out.txt");
-    FileWriter outputFileWriter = new FileWriter(outputFile);
-    for (String name : result.keySet()) {
-      outputFileWriter.write(name + " " + result.get(name) + "\n");
-    }
-    outputFileWriter.close();
+    printResult(result, outputFile);
   }
 
   public static Map<String, Integer> calculateResult(File inputFile) throws IOException {
@@ -70,5 +65,13 @@ public class Main {
     }
     br.close();
     return result;
+  }
+
+  public static void printResult(Map<String, Integer> result, File outputFile) throws IOException {
+    FileWriter outputFileWriter = new FileWriter(outputFile);
+    for (String name : result.keySet()) {
+      outputFileWriter.write(name + " " + result.get(name) + "\n");
+    }
+    outputFileWriter.close();
   }
 }
