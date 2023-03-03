@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -45,25 +46,34 @@ public class Main {
   }
 
   public static Map<String, Integer> calculateResult(File inputFile) throws IOException {
-    BufferedReader br = new BufferedReader(new FileReader(inputFile));
-
     Map<String, Integer> result = new HashMap<>();
-    int n = Integer.parseInt(br.readLine());
-    for (int i = 0; i < n; ++i) { // прочитать n раз
-      String line = br.readLine(); // "McCain 10"
-      int spaceIndex = line.indexOf(' '); // индекс пробела (для "McCain 10" это 6)
-      // с начала и до пробела - имя
-      String name = line.substring(0, spaceIndex); // "McCain"
-      // строка с числом голосов - от "после пробела" до конца
-      String voiceStr = line.substring(spaceIndex + 1); // "10"
-      int voices = Integer.parseInt(voiceStr); // 10
+    try {
+      BufferedReader br = new BufferedReader(new FileReader(inputFile)); // ошибка, если файла нет
 
-      if (!result.containsKey(name)) { // если кандидат появляется впервые
-        result.put(name, 0); // создаём ему счётчик
+      int n = Integer.parseInt(br.readLine()); // ошибка, только если файл неправильный
+      for (int i = 0; i < n; ++i) { // прочитать n раз
+        String line = br.readLine(); // "McCain 10"
+        int spaceIndex = line.lastIndexOf(' '); // индекс пробела (для "McCain 10" это 6)
+        // с начала и до пробела - имя
+        String name = line.substring(0, spaceIndex); // "McCain" // ошибка, если файл неправильный
+        // строка с числом голосов - от "после пробела" до конца
+        String voiceStr = line.substring(spaceIndex + 1); // "10"
+        int voices = Integer.parseInt(voiceStr); // 10 // ошибка, если файл неправильный
+
+        if (!result.containsKey(name)) { // если кандидат появляется впервые
+          result.put(name, 0); // создаём ему счётчик
+        }
+        result.put(name, result.get(name) + voices); // увеличиваем счётчик на значение голосов
       }
-      result.put(name, result.get(name) + voices); // увеличиваем счётчик на значение голосов
+      br.close();
+    } catch (FileNotFoundException e) {
+      System.err.println("Файл не найден: " + e.getMessage());
+    } catch (IndexOutOfBoundsException e) {
+      // если при поиске пробела получили -1 и подставили его в substring
+      System.err.println("Ошибка в файле: в строке нет пробела между именем и голосами");
+    } catch (NumberFormatException e) {
+      System.err.println("Ошибка в файле: количество голосов записано неверно: " + e.getMessage());
     }
-    br.close();
     return result;
   }
 
