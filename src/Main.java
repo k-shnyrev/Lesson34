@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
 
@@ -34,6 +36,7 @@ public class Main {
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
+    Map<String, Integer> result = new HashMap<>();
     int n = Integer.parseInt(br.readLine());
     for (int i = 0; i < n; ++i) { // прочитать n раз
       String line = br.readLine(); // "McCain 10"
@@ -43,6 +46,11 @@ public class Main {
       // строка с числом голосов - от "после пробела" до конца
       String voiceStr = line.substring(spaceIndex + 1); // "10"
       int voices = Integer.parseInt(voiceStr); // 10
+
+      if (!result.containsKey(name)) { // если кандидат появляется впервые
+        result.put(name, 0); // создаём ему счётчик
+      }
+      result.put(name, result.get(name) + voices); // увеличиваем счётчик на значение голосов
     }
   }
 }
