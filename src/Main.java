@@ -1,4 +1,6 @@
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -34,7 +36,8 @@ public class Main {
   // McCain 16
   // Obama 17
   public static void main(String[] args) throws IOException {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    File inputFile = new File("res/in.txt");
+    BufferedReader br = new BufferedReader(new FileReader(inputFile));
 
     Map<String, Integer> result = new HashMap<>();
     int n = Integer.parseInt(br.readLine());
@@ -52,6 +55,7 @@ public class Main {
       }
       result.put(name, result.get(name) + voices); // увеличиваем счётчик на значение голосов
     }
+    br.close();
 
     for (String name : result.keySet()) {
       System.out.println(name + " " + result.get(name));
