@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class Main {
 
   // Как известно, в США президент выбирается не прямым голосованием, а путем двухуровневого
@@ -27,7 +31,18 @@ public class Main {
   // Пример вывода:
   // McCain 16
   // Obama 17
-  public static void main(String[] args) {
-    System.out.println("Hello world!");
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+    int n = Integer.parseInt(br.readLine());
+    for (int i = 0; i < n; ++i) { // прочитать n раз
+      String line = br.readLine(); // "McCain 10"
+      int spaceIndex = line.indexOf(' '); // индекс пробела (для "McCain 10" это 6)
+      // с начала и до пробела - имя
+      String name = line.substring(0, spaceIndex); // "McCain"
+      // строка с числом голосов - от "после пробела" до конца
+      String voiceStr = line.substring(spaceIndex + 1); // "10"
+      int voices = Integer.parseInt(voiceStr); // 10
+    }
   }
 }
