@@ -78,10 +78,14 @@ public class Main {
   }
 
   public static void printResult(Map<String, Integer> result, File outputFile) throws IOException {
-    FileWriter outputFileWriter = new FileWriter(outputFile);
-    for (String name : result.keySet()) {
-      outputFileWriter.write(name + " " + result.get(name) + "\n");
+    try {
+      FileWriter outputFileWriter = new FileWriter(outputFile);
+      for (String name : result.keySet()) {
+        outputFileWriter.write(name + " " + result.get(name) + "\n");
+      }
+      outputFileWriter.close();
+    } catch (FileNotFoundException e) {
+      System.err.println("Не найдена директория для выходного файла: " + e.getMessage());
     }
-    outputFileWriter.close();
   }
 }
