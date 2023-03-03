@@ -38,6 +38,18 @@ public class Main {
   // Obama 17
   public static void main(String[] args) throws IOException {
     File inputFile = new File("res/in.txt");
+
+    Map<String, Integer> result = calculateResult(inputFile);
+
+    File outputFile = new File("res/out.txt");
+    FileWriter outputFileWriter = new FileWriter(outputFile);
+    for (String name : result.keySet()) {
+      outputFileWriter.write(name + " " + result.get(name) + "\n");
+    }
+    outputFileWriter.close();
+  }
+
+  public static Map<String, Integer> calculateResult(File inputFile) throws IOException {
     BufferedReader br = new BufferedReader(new FileReader(inputFile));
 
     Map<String, Integer> result = new HashMap<>();
@@ -57,12 +69,6 @@ public class Main {
       result.put(name, result.get(name) + voices); // увеличиваем счётчик на значение голосов
     }
     br.close();
-
-    File outputFile = new File("res/out.txt");
-    FileWriter outputFileWriter = new FileWriter(outputFile);
-    for (String name : result.keySet()) {
-      outputFileWriter.write(name + " " + result.get(name) + "\n");
-    }
-    outputFileWriter.close();
+    return result;
   }
 }
